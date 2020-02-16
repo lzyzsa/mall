@@ -1,6 +1,7 @@
 <template>
-  <div class="goods-item" >
-    <img :src="product.show.img" alt="" >
+  <div class="goods-item" @click="itemclick">
+    <!-- @load 监听图片加载 -->
+    <img v-lazy="showImage" alt="" @load="imageLoad">
     <div class="goods-info" >
       <p>{{product.title}}</p>
       <span class="price">{{product.price}}</span>
@@ -24,23 +25,28 @@
       //console.log(this.product)
     },
     computed:{
-      // showImage(){
-      //   return this.product.img || this.product.image || this.product.show.img;
-      // }
+      showImage(){
+        return this.product.img || this.product.image || this.product.show.img;
+      }
     },
     methods:{
-      // imgLoad(){
-      //   this.$bus.$emit('itemImageLoad');
+      imageLoad(){
+        //事件监听总线
+        this.$bus.$emit('itemImageLoad');
 
       //   // if(this.$route.path.indexOf('/home')){
       //   //   this.$bus.$emit('homeItemImageLoad');
       //   // } else if(this.$route.path.indexOf('/detail')){
       //   //   this.$bus.$emit('detailItemImageLoad');
       //   // }
-      // },
+      },
       // itemClick(){
       //   this.$router.push('/detail/' + this.product.iid);
       // }
+      itemclick(){
+       this.$router.push('/detail/' + this.product.iid)
+        
+      }
     }
   }
 </script>
@@ -49,7 +55,6 @@
   .goods-item {
     padding-bottom: 40px;
     position: relative;
-
     width: 46%;
   }
 
